@@ -1,11 +1,12 @@
-const winCombos = [
-  [[0][0], [0][1], [0][2]],
-  [[0][0], [1][0], [2][0]],
-  [[0][0], [1][1], [2][2]],
-  [[0][2], [1][2], [2][2]],
-  [[1][0], [1][1], [1][2]],
-  [[2][0], [2][1], [2][2]],
-  [[0][1], [1][1], [2][1]],
+const WINNING_COMBOS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8], // Rows
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8], // Columns
+  [0, 4, 8],
+  [2, 4, 6], // Diagonals
 ];
 
 const Gameboard = () => {
@@ -60,10 +61,12 @@ const GameController = (playerOneName, playerTwoName) => {
     {
       name: playerOneName,
       token: "O",
+      moves: [],
     },
     {
       name: playerTwoName,
       token: "X",
+      moves: [],
     },
   ];
 
@@ -80,9 +83,56 @@ const GameController = (playerOneName, playerTwoName) => {
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
+  const generateSquareNumber = (r, c) => {
+    let row = parseInt(r);
+    let column = parseInt(c);
+    if (row === 0) {
+      if (column === 0) {
+        return 0;
+      } else if (column === 1) {
+        return 1;
+      } else if (column === 2) {
+        return 2;
+      }
+    } else if (row === 1) {
+      if (column === 0) {
+        return 3;
+      } else if (column === 1) {
+        return 4;
+      } else if (column === 2) {
+        return 5;
+      }
+    } else if (row === 2) {
+      if (column === 0) {
+        return 6;
+      } else if (column === 1) {
+        return 7;
+      } else if (column === 2) {
+        return 8;
+      }
+    }
+  };
+
+  const checkWinner = () => {
+    for (let i = 0; i < WINNING_COMBOS.length; i++) {
+      if (
+        WINNING_COMBOS[i].every((num) => getActivePlayer().moves.includes(num))
+      ) {
+        return true;
+      }
+    }
+    return;
+  };
+
   const playRound = (row, column) => {
     console.log(`${getActivePlayer().name} has chosen ${row}, ${column}...`);
     board.chooseCell(row, column, getActivePlayer());
+    getActivePlayer().moves.push(generateSquareNumber(row, column));
+
+    if (checkWinner()) {
+      console.log(getActivePlayer().name + " is the winner!");
+      return;
+    }
 
     switchPlayerTurn();
     printNewRound();
