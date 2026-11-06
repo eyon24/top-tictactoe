@@ -143,12 +143,13 @@ const GameController = (playerOneName, playerTwoName) => {
   return {
     playRound,
     getActivePlayer,
+    checkWinner,
     getBoard: board.getBoard,
   };
 };
 
 function ScreenController() {
-  const game = GameController("p1", "p2");
+  const game = GameController("P1", "P2");
   const playerTurnDiv = document.querySelector(".turn");
   const boardDiv = document.querySelector(".board");
 
@@ -158,7 +159,11 @@ function ScreenController() {
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
 
-    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+    if (game.checkWinner()) {
+      playerTurnDiv.textContent = `${activePlayer.name}'s wins!!!`;
+    } else {
+      playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+    }
 
     board.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
@@ -176,10 +181,16 @@ function ScreenController() {
   function clickHandlerBoard(e) {
     const selectedColumn = e.target.dataset.column;
     const selectedRow = e.target.dataset.row;
+    const board = game.getBoard();
 
     if (!selectedColumn) return;
 
-    game.playRound(selectedRow, selectedColumn);
+    if (!game.checkWinner()) {
+      if (board[selectedRow][selectedColumn].getValue() === "") {
+        game.playRound(selectedRow, selectedColumn);
+      }
+    }
+
     updateScreen();
   }
   boardDiv.addEventListener("click", clickHandlerBoard);
