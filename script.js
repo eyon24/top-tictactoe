@@ -234,6 +234,7 @@ function ScreenController(playerOneName, playerTwoName) {
 
 const modalForm = () => {
   const form = document.querySelector(".modal-form");
+  const resetBtn = document.querySelector(".reset");
   let playerOneName = "Player 1";
   let playerTwoName = "Player 2";
 
@@ -243,14 +244,15 @@ const modalForm = () => {
     playerOneInput = document.querySelector(".playerOne");
     playerTwoInput = document.querySelector(".playerTwo");
 
-    if (playerOneInput !== "") {
+    if (!(playerOneInput.value === "")) {
       playerOneName = playerOneInput.value;
     }
 
-    if (playerTwoInput !== "") {
+    if (!(playerTwoInput.value === "")) {
       playerTwoName = playerTwoInput.value;
     }
 
+    resetBtn.classList.remove("hidden");
     ScreenController(playerOneName, playerTwoName);
   });
 };

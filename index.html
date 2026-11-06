@@ -8,18 +8,19 @@
   </head>
   <body>
     <div class="container">
-      <div class="modal">
-        <form class="modal-form">
-          <label for="playerOne">Player One Name: </label>
-          <input class="playerOne" type="text" name="playerOne" value="" />
-          <label for="playerTwo">Player Two Name: </label>
-          <input class="playerTwo" type="text" name="playerTwo" value="" />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
       <h1 class="turn"></h1>
-      <div class="board"></div>
-      <button class="reset">Reset</button>
+      <div class="board">
+        <div class="modal">
+          <form class="modal-form">
+            <label for="playerOne">Player One Name: </label>
+            <input class="playerOne" type="text" name="playerOne" value="" />
+            <label for="playerTwo">Player Two Name: </label>
+            <input class="playerTwo" type="text" name="playerTwo" value="" />
+            <button type="submit">Start Game</button>
+          </form>
+        </div>
+      </div>
+      <button class="reset hidden">Reset</button>
     </div>
     <script src="script.js" defer></script>
   </body>
